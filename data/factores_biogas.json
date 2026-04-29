@@ -1,0 +1,45 @@
+{
+  "estiercol_kg_animal_dia": {
+    "porcino_cebo": 4.5,
+    "porcino_madres": 11.0,
+    "porcino": 5.0,
+    "vacuno_leche": 55.0,
+    "vacuno_carne": 30.0,
+    "vacuno": 40.0,
+    "avicola_ponedoras": 0.12,
+    "avicola_broiler": 0.08,
+    "avicola": 0.10
+  },
+  "biogas_m3_por_tonelada": {
+    "porcino": 25,
+    "vacuno": 30,
+    "avicola": 90
+  },
+  "metano_porcentaje": {
+    "porcino": 0.65,
+    "vacuno": 0.60,
+    "avicola": 0.65
+  },
+  "kwh_por_m3_metano": 9.9,
+  "eficiencia_electrica_chp": 0.38,
+  "factor_emision_red_kg_co2_kwh": 0.19,
+  "metano_gwp_100": 28,
+  "densidad_metano_t_m3": 0.000717,
+  "capex_eur_kw_planta_biogas": 4500,
+  "opex_eur_kw_anio": 180,
+  "horas_operacion_anio": 8000,
+  "precio_kwh_industrial_eur": 0.13,
+  "co2_kg_por_coche_anio": 4600,
+  "fuentes": {
+    "estiercol": "IDAE — Biomasa: Digestores Anaerobios (2007); FAO Livestock Environmental Assessment",
+    "biogas_yield": "IEA Bioenergy Task 37 — Manure utilization 2025; Penn State Extension",
+    "metano_pct": "Clarke Energy; IEA Outlook for Biogas and Biomethane 2020",
+    "kwh_metano": "Poder calorífico inferior CH4 = 9.9 kWh/m³ (referencia estándar IEA)",
+    "eficiencia_chp": "Eficiencia eléctrica motores cogeneración agrícola 0.5-2 MW (Jenbacher, Caterpillar)",
+    "factor_red": "REE — Mix eléctrico español 2023, ~0.19 kg CO2/kWh",
+    "gwp_metano": "IPCC AR6 WG-I Cap. 7, GWP-100 metano = 28",
+    "capex_opex": "IDAE Manual de Biogás; IRENA Renewable Power Generation Costs 2023",
+    "precio_industrial": "MITECO precio medio industrial 2024",
+    "coche_co2": "EEA — emisión media coche turismo Europa 2023"
+  }
+}
