@@ -1,49 +1,51 @@
 # MegaWattle
 
-> **De residuo a megavatio** — convertir el problema ambiental de las macrogranjas españolas en la solución energética de los centros de datos.
+> **From waste to megawatt** — turning the environmental problem of Spanish macro-farms into the energy solution for data centers.
 
-Proyecto del **Hackathon League for Social Good 2026** (Milán-Madrid). Reto: ODS 6 (agua limpia) + ODS 7 (energía asequible y limpia).
+Project for the **Hackathon League for Social Good 2026** (Milan–Madrid). Challenge: SDG 6 (clean water) + SDG 7 (affordable and clean energy).
 
-## Idea
+![MegaWattle dashboard preview](frontend/public/pitch/demo.png)
 
-España tiene macrogranjas que saturan acuíferos con purines (procedimiento UE abierto por Directiva de Nitratos) y nuevos centros de datos hyperscale que tensionan la red eléctrica (Microsoft Aragón proyecta 10.500 GWh/año, más que el consumo total de Aragón). MegaWattle empareja geográficamente ambos problemas: **el estiércol se digiere a biogás → la cogeneración produce electricidad → el CPD cercano la consume**. Doble impacto ODS 6 + 7 + bonus crítico: el metano evitado tiene un GWP de 28 — 28 veces más potente que el CO₂.
+## The idea
+
+Spain has macro-farms saturating aquifers with slurry (open EU procedure for non-compliance with the Nitrates Directive) and new hyperscale data centers stressing the electric grid (Microsoft Aragón alone projects 10,500 GWh/year — more than the entire region's consumption). MegaWattle geographically pairs both problems: **manure is digested into biogas → cogeneration produces electricity → the nearby data center consumes it**. Double SDG 6 + 7 impact, plus a critical bonus: avoided methane has a GWP of 28 — 28× more potent than CO₂.
 
 ## Stack
 
 - **Backend**: Python 3.11 + Flask
-- **Frontend**: HTML + Tailwind (CDN) + Leaflet (mapa) + Chart.js
-- **IA**: Azure AI Foundry con prompt caching (modelo configurable vía env)
-- **Datos**: JSON estáticos cargados en memoria (sin BD)
+- **Frontend**: React 18 + TypeScript + Vite + Tailwind CSS + Leaflet (map) + Chart.js
+- **AI**: Azure AI Foundry with prompt caching (model configurable via env)
+- **Data**: static JSON loaded in memory (no database)
 
 ## Setup
 
-> **Requisitos**: Python 3.11+ y Node.js 18+ instalados.
+> **Requirements**: Python 3.11+ and Node.js 18+ installed.
 
-### Opción A — macOS / Linux con Make (recomendada)
+### Option A — macOS / Linux with Make (recommended)
 
 ```bash
-make dev          # arranca Flask (5050) + Vite (5173) en paralelo
+make dev          # starts Flask (5050) + Vite (5173) in parallel
 ```
 
-Abre **<http://localhost:5173>** (frontend con hot-reload).
+Open **<http://localhost:5173>** (frontend with hot-reload).
 
-Otros targets:
-- `make build` — bundlea el frontend en `static/dist/`
-- `make serve` — solo Flask sirviendo el bundle compilado (un solo puerto en 5050)
-- `make smoke` — test rápido de cálculos
-- `make stop` — libera puertos 5050 y 5173
-- `make clean` — borra venv y node_modules
+Other targets:
+- `make build` — bundles the frontend into `static/dist/`
+- `make serve` — Flask only, serving the compiled bundle (single port on 5050)
+- `make smoke` — quick calculation test
+- `make stop` — frees ports 5050 and 5173
+- `make clean` — removes venv and node_modules
 
-### Opción B — comandos manuales (Windows / macOS / Linux)
+### Option B — manual commands (Windows / macOS / Linux)
 
 #### 1. Backend (Python + Flask)
 
-**Windows (PowerShell o CMD)**:
+**Windows (PowerShell or CMD)**:
 ```powershell
 python -m venv .venv
 .venv\Scripts\pip install -r requirements.txt
 copy .env.example .env
-:: edita .env y rellena ANTHROPIC_API_KEY
+:: edit .env and fill in ANTHROPIC_API_KEY
 set PORT=5050
 .venv\Scripts\python app.py
 ```
@@ -53,24 +55,24 @@ set PORT=5050
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 cp .env.example .env
-# edita .env y rellena ANTHROPIC_API_KEY
+# edit .env and fill in ANTHROPIC_API_KEY
 PORT=5050 .venv/bin/python app.py
 ```
 
-#### 2. Frontend (React + Vite) — en otra terminal
+#### 2. Frontend (React + Vite) — in a separate terminal
 
-**Windows / macOS / Linux** (igual):
+**Windows / macOS / Linux** (same):
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-Abre **<http://localhost:5173>** — Vite hace proxy automático de `/api`, `/fuentes` y `/healthz` al backend en 5050.
+Open **<http://localhost:5173>** — Vite proxies `/api`, `/fuentes` and `/healthz` to the backend on 5050 automatically.
 
-#### 3. Solo backend (sin frontend en dev)
+#### 3. Backend only (no frontend dev server)
 
-Si compilas el frontend a producción primero, Flask lo sirve solo:
+If you build the frontend for production first, Flask serves it on its own:
 
 **Windows**:
 ```powershell
@@ -87,72 +89,81 @@ cd frontend && npm install && npm run build && cd ..
 .venv/bin/python app.py
 ```
 
-Abre **<http://localhost:5050>**.
+Open **<http://localhost:5050>**.
 
-### Variables de entorno
+### Environment variables
 
-`.env` (copiar de `.env.example`):
+`.env` (copy from `.env.example`):
 ```
-ANTHROPIC_API_KEY=tu-clave
-ANTHROPIC_MODEL=claude-sonnet-4-6   # o claude-haiku-4-5 para mayor velocidad
+ANTHROPIC_API_KEY=your-key
+ANTHROPIC_MODEL=claude-sonnet-4-6   # or claude-haiku-4-5 for higher speed
 FLASK_ENV=development
 PORT=5050
 ```
 
-> Sin clave API, la IA funciona en modo *fallback* con un análisis precalculado.
+> Without an API key, the AI runs in *fallback* mode with a pre-computed analysis.
 
-### Notas según sistema
+### System notes
 
-- **macOS**: el puerto 5000 está ocupado por AirPlay Receiver. Por eso usamos 5050.
-- **Windows**: si `python` no funciona, prueba `py -3` en vez de `python`.
-- **Linux**: puede que necesites `python3` en lugar de `python`.
+- **macOS**: port 5000 is taken by AirPlay Receiver — that's why we use 5050.
+- **Windows**: if `python` doesn't work, try `py -3` instead of `python`.
+- **Linux**: you may need `python3` instead of `python`.
 
-## Datos
+## Data
 
-- **17 centros de datos reales** con datos públicos: Microsoft Aragón, AWS Aragón (3 campus), Meta Talavera, Equinix MD2/MD3/MD4, Telefónica Alcalá, Interxion, NTT, Digital Realty, Merlin Edged Getafe, QTS Calatorao, Equinix BR2, Iron Mountain.
-- **33 nodos ganaderos agregados por municipio** (Censo MAPA 2024 + REGA + PRTR + DATADISTA): Aragón porcino, Cataluña porcino, Castilla y León vacuno, Galicia vacuno, Murcia porcino, Castilla-La Mancha mixto.
+- **30 real data centers** with public information: Microsoft Aragón, AWS Aragón (3 campuses), Meta Talavera, Equinix MD2/MD3/MD4, Telefónica Alcalá, NTT, Interxion, Digital Realty, Merlin Edged Getafe, QTS Calatorao, Equinix BR2, Iron Mountain, Colt, KIO, Cologix, Stack Infrastructure, Data4, EdgeConneX, Adamo, Cellnex, Euskaltel, Iberdrola, Telefónica Sevilla, Ahead Málaga, R Telecomunicaciones.
+- **52 livestock nodes aggregated by municipality** (MAPA 2024 Census + REGA + PRTR + DATADISTA): pig farming in Aragón / Cataluña / Murcia / Andalucía / Extremadura / Navarra; cattle in Castilla y León / Galicia / Asturias / Cantabria / País Vasco; poultry in Castilla-La Mancha / Comunidad Valenciana.
 
-> Las "granjas" son **agregados municipales públicos**, no explotaciones individuales. Coordenadas = centroide municipal.
+> The "farms" are **public municipal aggregates**, not individual operations. Coordinates = municipal centroids.
 
-## Flujo de uso
+## Usage flow
 
-1. **Filtra centros de datos** por CCAA → provincia
-2. **Selecciona 1 o 2 CPDs** (checkbox o click en mapa)
-3. **Define el radio de búsqueda** (5-100 km) y opcionalmente tipo de animal
-4. **Ve qué granjas pueden alimentarlo** y con qué % de su demanda
-5. **Genera análisis con IA**: el modelo en Azure produce informe con narrativa + gráficos comparativos
+1. **Filter data centers** by autonomous community → province.
+2. **Select 1 or 2 data centers** (checkbox or click on the map).
+3. **Define a search radius** (5–100 km) and optionally an animal type.
+4. **See which farms can feed it** and what % of its demand they cover.
+5. **Generate AI analysis**: the Azure-hosted model produces a structured report with narrative and comparative charts.
 
-## Estructura
+## Project structure
 
 ```
-app.py                     # entrypoint Flask
-config.py                  # carga env vars + datos en memoria
+app.py                     # Flask entrypoint
+config.py                  # loads env vars + data into memory
 data/
-  cpds.json                # 17 CPDs reales
-  granjas.json             # 33 nodos ganaderos agregados
-  factores_biogas.json     # coeficientes citables (IDAE, IPCC, IEA)
-  cache_ai/                # respuestas IA pre-generadas (presets)
+  cpds.json                # 30 real data centers
+  granjas.json             # 52 aggregated livestock nodes
+  factores_biogas.json     # citable coefficients (IDAE, IPCC, IEA)
+  cache_ai/                # pre-generated AI responses (presets)
 services/
   geo.py                   # haversine
-  calculos.py              # fórmulas biogás → MWh → CO2eq → payback
-  matching.py              # emparejamiento por radio
-  ai_client.py             # Cliente IA (Azure AI Foundry) + prompt caching + fallback
+  calculos.py              # biogas → MWh → CO2eq → payback formulas
+  matching.py              # radius-based matching
+  ai_client.py             # AI client (Azure AI Foundry) + prompt caching + fallback
 routes/
-  views.py                 # GET / + GET /fuentes
+  views.py                 # GET / + GET /fuentes + static asset routes
   api.py                   # /api/cpds, /api/granjas, /api/match, /api/ai/analizar
-templates/index.html       # UI única (SPA-light)
-static/js/                 # map.js, filters.js, results.js, ai-panel.js
+frontend/                  # React + TypeScript + Vite SPA
+  src/
+    components/            # Header, Map, Filters, Results, AI panel
+    pitch/                 # 3 pitch presentation modes (modern, visual, office)
+    lib/                   # api client + zustand store
 docs/
-  fuentes.md               # bibliografía completa
-  pitch.md                 # guion del pitch de 2 min
+  fuentes.md               # full bibliography
+  pitch.md                 # extended pitch script
+  pitch-2min.md            # 2-min pitch + Q&A + glossary
+  pitch-2min.pdf           # printable PDF version
+  MegaWattle - Pitch.pptx  # PowerPoint export (modern style)
+  MegaWattle - Pitch Office.pptx  # PowerPoint export (Microsoft style)
+  demo.mov                 # platform demo video
 ```
 
-## Documentación técnica
+## Technical documentation
 
-- Fórmulas y factores citables: [docs/fuentes.md](docs/fuentes.md)
-- Guion del pitch + Q&A esperado: [docs/pitch.md](docs/pitch.md)
+- Citable formulas and factors: [docs/fuentes.md](docs/fuentes.md)
+- Pitch script + expected Q&A: [docs/pitch.md](docs/pitch.md)
+- 2-minute pitch + glossary: [docs/pitch-2min.pdf](docs/pitch-2min.pdf)
 
-## Verificación
+## Verification
 
 ```bash
 # Smoke tests
@@ -163,15 +174,17 @@ curl -X POST http://localhost:5050/api/match \
   -d '{"cpd_ids":["microsoft-aragon"],"radio_km":50,"tipo_animal":"porcino"}'
 ```
 
-Caso de prueba unitario: 5.000 cerdos cebo → ~8.213 t/año estiércol → ~502 MWh/año → ~2.775 t CO₂eq evitado → payback ~5.2 años.
+Reference unit case: 5,000 fattening pigs → ~8,213 t/year of manure → ~502 MWh/year → ~2,775 t CO₂eq avoided → payback ~5.2 years.
 
-## ODS y marco legal
+## SDGs and legal framework
 
-- ODS 6 — Agua limpia y saneamiento
-- ODS 7 — Energía asequible y no contaminante
-- Directiva 91/676/CEE (Directiva de Nitratos)
-- Procedimiento TJUE C-575/22 contra España
+- SDG 6 — Clean water and sanitation
+- SDG 7 — Affordable and clean energy
+- Directive 91/676/EEC (Nitrates Directive)
+- CJEU procedure C-575/22 against Spain
 
-## Créditos
+## Credits
 
-Hackathon League for Social Good 2026 · Milán-Madrid · ODS 6 + ODS 7.
+Hackathon League for Social Good 2026 · Milan–Madrid · SDG 6 + SDG 7.
+
+**Team Outliers** — Roberto Molero · Jonathan Brasales · Iris Amorim · Naizabeth Bermudez · Raúl Machaca.
