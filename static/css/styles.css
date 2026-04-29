@@ -1,0 +1,13 @@
+html, body { height: 100%; margin: 0; }
+#map { width: 100%; }
+.cpd-item { cursor: pointer; padding: 6px 8px; border-radius: 4px; }
+.cpd-item:hover { background: #f1f5f9; }
+.cpd-item.selected { background: #dbeafe; border-left: 3px solid #2563eb; }
+.kpi-card { background: #f8fafc; border-radius: 8px; padding: 12px; text-align: center; }
+.kpi-value { font-size: 1.5rem; font-weight: 700; color: #0f172a; }
+.kpi-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
+table.contrib { width: 100%; font-size: 0.85rem; border-collapse: collapse; }
+table.contrib th, table.contrib td { padding: 4px 8px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+table.contrib th { background: #f8fafc; font-weight: 600; }
+.ai-section { border-left: 3px solid #0ea5e9; padding-left: 12px; margin-bottom: 16px; }
+.ai-section h4 { font-weight: 600; margin-bottom: 6px; }
