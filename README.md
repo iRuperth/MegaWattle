@@ -95,8 +95,8 @@ Open **<http://localhost:5050>**.
 
 `.env` (copy from `.env.example`):
 ```
-ANTHROPIC_API_KEY=your-key
-ANTHROPIC_MODEL=claude-sonnet-4-6   # or claude-haiku-4-5 for higher speed
+COPILOT_API=your-key
+COPILOT_MODEL=model 
 FLASK_ENV=development
 PORT=5050
 ```
